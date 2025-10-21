@@ -1,6 +1,10 @@
-public class PlayerMoveState : PlayerGroundedState
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerFallState : EntityState
 {
-    public PlayerMoveState(Player player, StateMachine stateMachine, EnumState stateName) : base(player, stateMachine, stateName)
+    public PlayerFallState(Player player, StateMachine stateMachine, EnumState stateName) : base(player, stateMachine, stateName)
     {
     }
 
@@ -26,11 +30,6 @@ public class PlayerMoveState : PlayerGroundedState
     public override void Update()
     {
         base.Update();
-
-        if (_player.MoveX == 0)
-            _stateMachine.ChangeState(_player.IdleState);
-
-        _player.SetVelocity(_player.MoveX * _player.MoveSpeed, _rb.linearVelocityY);
     }
     #endregion
 

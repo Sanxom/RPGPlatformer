@@ -1,8 +1,10 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerIdleState : PlayerGroundedState
+public class PlayerJumpState : EntityState
 {
-    public PlayerIdleState(Player player, StateMachine stateMachine, EnumState stateName) : base(player, stateMachine, stateName)
+    public PlayerJumpState(Player player, StateMachine stateMachine, EnumState stateName) : base(player, stateMachine, stateName)
     {
     }
 
@@ -25,14 +27,19 @@ public class PlayerIdleState : PlayerGroundedState
     #endregion
 
     #region Public Methods
+    public override void Enter()
+    {
+        base.Enter();
+
+        _player.SetVelocity(_rb.linearVelocityX, _player.JumpForce);
+    }
+
     public override void Update()
     {
         base.Update();
 
-        if(_player.MoveX != 0)
-        {
-            _stateMachine.ChangeState(_player.MoveState);
-        }
+        if (_rb.linearVelocityY < 0)
+            _stateMachine.ChangeState(_player.FallState);
     }
     #endregion
 

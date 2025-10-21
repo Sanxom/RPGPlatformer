@@ -22,20 +22,27 @@ public class Player : MonoBehaviour
     #region Public Properties
     [Header("Movement")]
     [field: SerializeField] public float MoveSpeed { get; private set; }
+    [field: SerializeField] public float JumpForce { get; private set; }
 
-    public PlayerInputActions Inputs { get; private set; }
-    public InputAction MoveAction { get; private set; }
-    public InputAction JumpAction { get; private set; }
     public Vector2 MoveInputVector { get; private set; }
     public float MoveX { get; private set; }
     public float MoveY { get; private set; }
     public bool IsFacingRight { get; private set; } = true;
 
+    [Header("Input")]
+    public PlayerInputActions Inputs { get; private set; }
+    public InputAction MoveAction { get; private set; }
+    public InputAction JumpAction { get; private set; }
+
     [Header("References")]
     public Animator PlayerAnimator { get; private set; }
     public Rigidbody2D Rb { get; private set; }
+
+    [Header("State Machine")]
     public PlayerIdleState IdleState { get; private set; }
     public PlayerMoveState MoveState { get; private set; }
+    public PlayerJumpState JumpState { get; private set; }
+    public PlayerFallState FallState { get; private set; }
     #endregion
 
     #region Unity Callbacks
@@ -50,6 +57,8 @@ public class Player : MonoBehaviour
         _stateMachine = new();
         IdleState = new(this, _stateMachine, Idle);
         MoveState = new(this, _stateMachine, Move);
+        JumpState = new(this, _stateMachine, JumpFall);
+        FallState = new(this, _stateMachine, JumpFall);
     }
 
     private void OnEnable()

@@ -1,6 +1,10 @@
-public class PlayerMoveState : PlayerGroundedState
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerGroundedState : EntityState
 {
-    public PlayerMoveState(Player player, StateMachine stateMachine, EnumState stateName) : base(player, stateMachine, stateName)
+    public PlayerGroundedState(Player player, StateMachine stateMachine, EnumState stateName) : base(player, stateMachine, stateName)
     {
     }
 
@@ -27,10 +31,8 @@ public class PlayerMoveState : PlayerGroundedState
     {
         base.Update();
 
-        if (_player.MoveX == 0)
-            _stateMachine.ChangeState(_player.IdleState);
-
-        _player.SetVelocity(_player.MoveX * _player.MoveSpeed, _rb.linearVelocityY);
+        if (_inputs.Player.Jump.WasPressedThisFrame())
+            _stateMachine.ChangeState(_player.JumpState);
     }
     #endregion
 

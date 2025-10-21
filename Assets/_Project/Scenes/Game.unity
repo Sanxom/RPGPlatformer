@@ -688,6 +688,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   <MoveSpeed>k__BackingField: 7
+  <JumpForce>k__BackingField: 5
 --- !u!50 &1781190766
 Rigidbody2D:
   serializedVersion: 5
