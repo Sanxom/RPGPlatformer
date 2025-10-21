@@ -1,39 +1,46 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class EntityState
 {
-    public enum GameState
+    public enum EnumState
     {
         Idle,
         Move,
-        Jump,
-        Attack,
-        Dead
     }
 
     protected Player _player;
+    protected Animator _animator;
+    protected Rigidbody2D _rb;
     protected StateMachine _stateMachine;
-    protected GameState _stateName;
+    protected EnumState _stateName;
 
-    public EntityState(Player player, StateMachine stateMachine, GameState stateName)
+    protected Dictionary<EnumState, string> _enumToAnimStringDictionary = new()
+    {
+        {EnumState.Idle, "idle" },
+        {EnumState.Move, "move" }
+    };
+
+    public EntityState(Player player, StateMachine stateMachine, EnumState stateName)
     {
         _player = player;
+        _animator = _player.PlayerAnimator;
+        _rb = _player.Rb;
         _stateMachine = stateMachine;
         _stateName = stateName;
     }
 
     public virtual void Enter()
     {
-        Debug.Log($"I entered {_stateName}.");
+        _animator.SetBool(_enumToAnimStringDictionary[_stateName], true);
     }
 
     public virtual void Update()
     {
-        Debug.Log($"I am updating {_stateName}.");
     }
 
     public virtual void Exit()
     {
-        Debug.Log($"I am exiting {_stateName}.");
+        _animator.SetBool(_enumToAnimStringDictionary[_stateName], false);
     }
 }

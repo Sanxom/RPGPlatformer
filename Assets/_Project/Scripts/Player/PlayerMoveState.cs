@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.InputSystem;
-
 public class PlayerMoveState : EntityState
 {
-    public PlayerMoveState(Player player, StateMachine stateMachine, GameState stateName) : base(player, stateMachine, stateName)
+    public PlayerMoveState(Player player, StateMachine stateMachine, EnumState stateName) : base(player, stateMachine, stateName)
     {
     }
 
@@ -34,6 +29,8 @@ public class PlayerMoveState : EntityState
 
         if (_player.MoveX == 0)
             _stateMachine.ChangeState(_player.IdleState);
+
+        _player.SetVelocity(_player.MoveX * _player.MoveSpeed, _rb.linearVelocity.y);
     }
     #endregion
 

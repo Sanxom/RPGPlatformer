@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerIdleState : EntityState
 {
-    public PlayerIdleState(Player player, StateMachine stateMachine, GameState stateName) : base(player, stateMachine, stateName)
+    public PlayerIdleState(Player player, StateMachine stateMachine, EnumState stateName) : base(player, stateMachine, stateName)
     {
     }
 
@@ -35,6 +32,11 @@ public class PlayerIdleState : EntityState
         if(_player.MoveX != 0)
         {
             _stateMachine.ChangeState(_player.MoveState);
+        }
+
+        if (_player.JumpAction.WasPressedThisFrame())
+        {
+            Debug.Log("Jumped");
         }
     }
     #endregion
