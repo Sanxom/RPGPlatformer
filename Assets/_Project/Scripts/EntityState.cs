@@ -8,8 +8,9 @@ public abstract class EntityState
     {
         Idle,
         Move,
-        InAir,
-        JumpFall
+        JumpFall,
+        WallSlide,
+        Dash
     }
 
     protected Animator _animator;
@@ -19,12 +20,15 @@ public abstract class EntityState
     protected StateMachine _stateMachine;
     protected EnumState _stateName;
     protected const string Y_VELOCITY_ANIM_NAME = "yVelocity";
+    protected float _stateTimer;
 
     protected Dictionary<EnumState, string> _enumToAnimStringDictionary = new()
     {
         {EnumState.Idle, "idle" },
         {EnumState.Move, "move" },
-        {EnumState.JumpFall, "jumpFall" }
+        {EnumState.JumpFall, "jumpFall" },
+        {EnumState.WallSlide, "wallSlide" },
+        {EnumState.Dash, "dash" }
     };
 
     public EntityState(Player player, StateMachine stateMachine, EnumState stateName)
@@ -44,11 +48,20 @@ public abstract class EntityState
 
     public virtual void Update()
     {
+        _stateTimer -= Time.deltaTime;
         _animator.SetFloat(Y_VELOCITY_ANIM_NAME, _rb.linearVelocityY);
+
+        if (_inputs.Player.Dash.WasPressedThisFrame() && CanDash())
+            _stateMachine.ChangeState(_player.DashState);
     }
 
     public virtual void Exit()
     {
         _animator.SetBool(_enumToAnimStringDictionary[_stateName], false);
+    }
+
+    private bool CanDash()
+    {
+        return !_player.WallDetected && _stateMachine.CurrentState != _player.DashState;
     }
 }

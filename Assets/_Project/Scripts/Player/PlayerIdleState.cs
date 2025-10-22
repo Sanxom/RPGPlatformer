@@ -25,6 +25,12 @@ public class PlayerIdleState : PlayerGroundedState
     #endregion
 
     #region Public Methods
+    public override void Enter()
+    {
+        base.Enter();
+        _player.SetVelocity(0f, _rb.linearVelocityY);
+    }
+
     public override void Update()
     {
         base.Update();

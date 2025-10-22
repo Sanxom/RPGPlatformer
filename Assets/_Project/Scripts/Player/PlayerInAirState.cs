@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerFallState : PlayerInAirState
+public class PlayerInAirState : EntityState
 {
-    public PlayerFallState(Player player, StateMachine stateMachine, EnumState stateName) : base(player, stateMachine, stateName)
+    public PlayerInAirState(Player player, StateMachine stateMachine, EnumState stateName) : base(player, stateMachine, stateName)
     {
     }
 
@@ -31,14 +31,9 @@ public class PlayerFallState : PlayerInAirState
     {
         base.Update();
 
-        if (_player.GroundDetected)
+        if (_player.MoveX != 0)
         {
-            _stateMachine.ChangeState(_player.IdleState);
-        }
-
-        if (_player.WallDetected)
-        {
-            _stateMachine.ChangeState(_player.WallSlideState);
+            _player.SetVelocity(_player.MoveX * (_player.MoveSpeed * _player.InAirMultiplier), _rb.linearVelocityY);
         }
     }
     #endregion

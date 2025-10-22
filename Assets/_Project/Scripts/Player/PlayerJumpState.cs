@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerJumpState : EntityState
+public class PlayerJumpState : PlayerInAirState
 {
     public PlayerJumpState(Player player, StateMachine stateMachine, EnumState stateName) : base(player, stateMachine, stateName)
     {
