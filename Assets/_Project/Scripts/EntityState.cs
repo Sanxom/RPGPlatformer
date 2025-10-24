@@ -10,7 +10,8 @@ public abstract class EntityState
         Move,
         JumpFall,
         WallSlide,
-        Dash
+        Dash,
+        BasicAttack
     }
 
     protected Animator _animator;
@@ -21,6 +22,7 @@ public abstract class EntityState
     protected EnumState _stateName;
     protected const string Y_VELOCITY_ANIM_NAME = "yVelocity";
     protected float _stateTimer;
+    protected bool _triggerCalled;
 
     protected Dictionary<EnumState, string> _enumToAnimStringDictionary = new()
     {
@@ -28,7 +30,8 @@ public abstract class EntityState
         {EnumState.Move, "move" },
         {EnumState.JumpFall, "jumpFall" },
         {EnumState.WallSlide, "wallSlide" },
-        {EnumState.Dash, "dash" }
+        {EnumState.Dash, "dash" },
+        {EnumState.BasicAttack, "basicAttack" }
     };
 
     public EntityState(Player player, StateMachine stateMachine, EnumState stateName)
@@ -44,6 +47,7 @@ public abstract class EntityState
     public virtual void Enter()
     {
         _animator.SetBool(_enumToAnimStringDictionary[_stateName], true);
+        _triggerCalled = false;
     }
 
     public virtual void Update()
@@ -58,6 +62,11 @@ public abstract class EntityState
     public virtual void Exit()
     {
         _animator.SetBool(_enumToAnimStringDictionary[_stateName], false);
+    }
+
+    public void CallAnimationTrigger()
+    {
+        _triggerCalled = true;
     }
 
     private bool CanDash()

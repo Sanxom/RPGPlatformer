@@ -13,6 +13,10 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Serialized Private Fields
+    [Header("Collision Detection")]
+    [SerializeField] private LayerMask whatIsGround;
+    [SerializeField] private float groundCheckDistance;
+    [SerializeField] private float wallCheckDistance;
     #endregion
 
     #region Private Fields
@@ -20,6 +24,9 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Public Properties
+    [field: SerializeField, Header("Attack")] public Vector2 AttackVelocity { get; private set; }
+    [field: SerializeField] public float AttackVelocityDuration { get; private set; } = 0.1f;
+
     [field: SerializeField, Header("Movement")] public Vector2 WallJumpForce { get; private set; }
     [field: SerializeField] public float MoveSpeed { get; private set; }
     [field: SerializeField] public float JumpForce { get; private set; }
@@ -51,11 +58,7 @@ public class Player : MonoBehaviour
     public PlayerWallSlideState WallSlideState { get; private set; }
     public PlayerWallJumpState WallJumpState { get; private set; }
     public PlayerDashState DashState { get; private set; }
-
-    [Header("Collision Detection")]
-    [SerializeField] private LayerMask whatIsGround;
-    [SerializeField] private float groundCheckDistance;
-    [SerializeField] private float wallCheckDistance;
+    public PlayerBasicAttackState BasicAttackState { get; private set; }
 
     public bool GroundDetected { get; private set; }
     public bool WallDetected { get; private set; }
@@ -78,6 +81,7 @@ public class Player : MonoBehaviour
         WallSlideState = new(this, _stateMachine, WallSlide);
         WallJumpState = new(this, _stateMachine, JumpFall);
         DashState = new(this, _stateMachine, Dash);
+        BasicAttackState = new(this, _stateMachine, BasicAttack);
     }
 
     private void OnEnable()
@@ -122,6 +126,11 @@ public class Player : MonoBehaviour
         transform.Rotate(0, 180, 0);
         IsFacingRight = !IsFacingRight;
         FacingDirection *= -1;
+    }
+
+    public void CallAnimationTrigger()
+    {
+        _stateMachine.CurrentState.CallAnimationTrigger();
     }
     #endregion
 

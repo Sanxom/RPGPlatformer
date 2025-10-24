@@ -876,6 +876,7 @@ GameObject:
   - component: {fileID: 1564939586}
   - component: {fileID: 1564939587}
   - component: {fileID: 1564939588}
+  - component: {fileID: 1564939589}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -978,6 +979,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1564939589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1564939585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e53326cde8cc01045b267182a269b082, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimationTriggers
 --- !u!1 &1772538569
 GameObject:
   m_ObjectHideFlags: 0
@@ -1059,16 +1072,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50020d2bcbee14441a163df8bd031eca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 64
+  groundCheckDistance: 1.35
+  wallCheckDistance: 0.4
+  <AttackVelocity>k__BackingField: {x: 3, y: 1.5}
+  <AttackVelocityDuration>k__BackingField: 0.1
   <WallJumpForce>k__BackingField: {x: 6, y: 12}
   <MoveSpeed>k__BackingField: 8
   <JumpForce>k__BackingField: 12
   <InAirMultiplier>k__BackingField: 0.8
   <WallSlideSlowMultiplier>k__BackingField: 0.3
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 64
-  groundCheckDistance: 1.4
-  wallCheckDistance: 0.4
+  <DashDuration>k__BackingField: 0.25
+  <DashSpeed>k__BackingField: 20
 --- !u!50 &1781190766
 Rigidbody2D:
   serializedVersion: 5
@@ -1130,8 +1147,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.35}
-  m_Size: {x: 0.77, y: 2}
+  m_Offset: {x: 0, y: -0.3357466}
+  m_Size: {x: 0.77, y: 1.9714931}
   m_Direction: 0
 --- !u!1 &2113859054
 GameObject:

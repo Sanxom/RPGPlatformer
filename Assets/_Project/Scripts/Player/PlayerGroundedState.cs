@@ -38,6 +38,11 @@ public class PlayerGroundedState : EntityState
 
         if (_inputs.Player.Jump.WasPressedThisFrame())
             _stateMachine.ChangeState(_player.JumpState);
+
+        if (_inputs.Player.Attack.WasPressedThisFrame())
+        {
+            _stateMachine.ChangeState(_player.BasicAttackState);
+        }
     }
     #endregion
 
