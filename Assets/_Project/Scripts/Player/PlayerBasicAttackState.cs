@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class PlayerBasicAttackState : EntityState
 {
-    private float _attackVelocityTimer;
 
     public PlayerBasicAttackState(Player player, StateMachine stateMachine, EnumState stateName) : base(player, stateMachine, stateName)
     {
+        if (_comboLimit != _player.AttackVelocity.Length)
+        {
+            _comboLimit = _player.AttackVelocity.Length;
+        }
     }
 
     #region Event Fields
@@ -20,6 +23,13 @@ public class PlayerBasicAttackState : EntityState
     #endregion
 
     #region Private Fields
+    private const string BASIC_ATTACK_ANIM_NAME = "basicAttackIndex";
+    private const int FIRST_COMBO_INDEX = 1;
+
+    private float _attackVelocityTimer;
+    private float _lastTimeAttacked;
+    private int _comboIndex = 1;
+    private int _comboLimit = 3;
     #endregion
 
     #region Public Properties
@@ -32,8 +42,10 @@ public class PlayerBasicAttackState : EntityState
     public override void Enter()
     {
         base.Enter();
+        ResetComboIndex();
 
-        GenerateAttackVelocity();
+        _animator.SetInteger(BASIC_ATTACK_ANIM_NAME, _comboIndex);
+        ApplyAttackVelocity();
     }
 
     public override void Update()
@@ -43,6 +55,13 @@ public class PlayerBasicAttackState : EntityState
 
         if (_triggerCalled)
             _stateMachine.ChangeState(_player.IdleState);
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        _comboIndex++;
+        _lastTimeAttacked = Time.time;
     }
     #endregion
 
@@ -55,11 +74,18 @@ public class PlayerBasicAttackState : EntityState
             _player.SetVelocity(0f, _rb.linearVelocityY);
     }
 
-    private void GenerateAttackVelocity()
+    private void ApplyAttackVelocity()
     {
+        Vector2 attackVelocity = _player.AttackVelocity[_comboIndex - 1];
         _attackVelocityTimer = _player.AttackVelocityDuration;
 
-        _player.SetVelocity(_player.AttackVelocity.x * _player.FacingDirection, _player.AttackVelocity.y);
+        _player.SetVelocity(attackVelocity.x * _player.FacingDirection, attackVelocity.y);
+    }
+
+    private void ResetComboIndex()
+    {
+        if (_comboIndex > _comboLimit || Time.time > _lastTimeAttacked + _player.ComboResetTime)
+            _comboIndex = FIRST_COMBO_INDEX;
     }
     #endregion
 }

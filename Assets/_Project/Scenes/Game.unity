@@ -944,50 +944,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1428146887
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1428146888}
-  - component: {fileID: 1428146889}
-  m_Layer: 0
-  m_Name: AllocatorDemo
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1428146888
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1428146887}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1428146889
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1428146887}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9645e02394517d4c88ce68e553ebec0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: MasonBell.Tools::AllocatorDemo
 --- !u!1 &1564939585
 GameObject:
   m_ObjectHideFlags: 0
@@ -1200,8 +1156,12 @@ MonoBehaviour:
     m_Bits: 64
   groundCheckDistance: 1.35
   wallCheckDistance: 0.4
-  <AttackVelocity>k__BackingField: {x: 3, y: 1.5}
+  <AttackVelocity>k__BackingField:
+  - {x: 3, y: 1.5}
+  - {x: 1, y: 2.5}
+  - {x: 5, y: 2.5}
   <AttackVelocityDuration>k__BackingField: 0.1
+  <ComboResetTime>k__BackingField: 1
   <WallJumpForce>k__BackingField: {x: 6, y: 12}
   <MoveSpeed>k__BackingField: 8
   <JumpForce>k__BackingField: 12
@@ -1359,5 +1319,4 @@ SceneRoots:
   - {fileID: 453566833}
   - {fileID: 1211420464}
   - {fileID: 1302467550}
-  - {fileID: 1428146888}
   - {fileID: 555017699}

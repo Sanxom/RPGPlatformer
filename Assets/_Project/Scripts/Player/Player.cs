@@ -24,8 +24,9 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Public Properties
-    [field: SerializeField, Header("Attack")] public Vector2 AttackVelocity { get; private set; }
+    [field: SerializeField, Header("Attack")] public Vector2[] AttackVelocity { get; private set; }
     [field: SerializeField] public float AttackVelocityDuration { get; private set; } = 0.1f;
+    [field: SerializeField] public float ComboResetTime { get; private set; } = 1f;
 
     [field: SerializeField, Header("Movement")] public Vector2 WallJumpForce { get; private set; }
     [field: SerializeField] public float MoveSpeed { get; private set; }
