@@ -36,7 +36,7 @@ public class PlayerDashState : EntityState
 
         _originalGravityScale = _rb.gravityScale;
         _rb.gravityScale = 0f;
-        _dashDirection = _player.FacingDirection;
+        _dashDirection = _player.MoveInputVector.x != 0 ? (int)_player.MoveInputVector.x : _player.FacingDirection;
     }
 
     public override void Update()

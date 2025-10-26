@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -21,6 +22,7 @@ public class Player : MonoBehaviour
 
     #region Private Fields
     private StateMachine _stateMachine;
+    private Coroutine _queuedAttackCoroutine;
     #endregion
 
     #region Public Properties
@@ -133,9 +135,23 @@ public class Player : MonoBehaviour
     {
         _stateMachine.CurrentState.CallAnimationTrigger();
     }
+
+    public void EnterAttackStateWithDelay()
+    {
+        if (_queuedAttackCoroutine != null)
+            StopCoroutine(_queuedAttackCoroutine);
+
+        _queuedAttackCoroutine = StartCoroutine(EnterAttackStateWithDelayCoroutine());
+    }
     #endregion
 
     #region Private Methods
+    private IEnumerator EnterAttackStateWithDelayCoroutine()
+    {
+        yield return new WaitForEndOfFrame();
+        _stateMachine.ChangeState(BasicAttackState);
+    }
+
     private void ReadInput(InputAction.CallbackContext ctx)
     {
         MoveInputVector = ctx.ReadValue<Vector2>();
