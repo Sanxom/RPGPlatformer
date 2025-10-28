@@ -15,6 +15,8 @@ public class Player : MonoBehaviour
 
     #region Serialized Private Fields
     [Header("Collision Detection")]
+    [SerializeField] private Transform primaryWallCheck;
+    [SerializeField] private Transform secondaryWallCheck;
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private float groundCheckDistance;
     [SerializeField] private float wallCheckDistance;
@@ -27,6 +29,7 @@ public class Player : MonoBehaviour
 
     #region Public Properties
     [field: SerializeField, Header("Attack")] public Vector2[] AttackVelocity { get; private set; }
+    [field: SerializeField] public Vector2 JumpAttackVelocity { get; private set; }
     [field: SerializeField] public float AttackVelocityDuration { get; private set; } = 0.1f;
     [field: SerializeField] public float ComboResetTime { get; private set; } = 1f;
 
@@ -62,6 +65,7 @@ public class Player : MonoBehaviour
     public PlayerWallJumpState WallJumpState { get; private set; }
     public PlayerDashState DashState { get; private set; }
     public PlayerBasicAttackState BasicAttackState { get; private set; }
+    public PlayerJumpAttackState JumpAttackState { get; private set; }
 
     public bool GroundDetected { get; private set; }
     public bool WallDetected { get; private set; }
@@ -85,6 +89,7 @@ public class Player : MonoBehaviour
         WallJumpState = new(this, _stateMachine, JumpFall);
         DashState = new(this, _stateMachine, Dash);
         BasicAttackState = new(this, _stateMachine, BasicAttack);
+        JumpAttackState = new(this, _stateMachine, JumpAttack);
     }
 
     private void OnEnable()
@@ -113,7 +118,8 @@ public class Player : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawLine(transform.position, transform.position + new Vector3(0, -groundCheckDistance));
-        Gizmos.DrawLine(transform.position, transform.position + new Vector3(wallCheckDistance * FacingDirection, 0f));
+        Gizmos.DrawLine(primaryWallCheck.position, primaryWallCheck.position + new Vector3(wallCheckDistance * FacingDirection, 0f));
+        Gizmos.DrawLine(secondaryWallCheck.position, secondaryWallCheck.position + new Vector3(wallCheckDistance * FacingDirection, 0f));
     }
     #endregion
 
@@ -173,7 +179,8 @@ public class Player : MonoBehaviour
     private void HandleCollisionDetection()
     {
         GroundDetected = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, whatIsGround);
-        WallDetected = Physics2D.Raycast(transform.position, Vector2.right * FacingDirection, wallCheckDistance, whatIsGround);
+        WallDetected = Physics2D.Raycast(primaryWallCheck.position, Vector2.right * FacingDirection, wallCheckDistance, whatIsGround)
+            && Physics2D.Raycast(secondaryWallCheck.position, Vector2.right * FacingDirection, wallCheckDistance, whatIsGround);
     }
     #endregion
 }

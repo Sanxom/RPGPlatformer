@@ -11,7 +11,8 @@ public abstract class EntityState
         JumpFall,
         WallSlide,
         Dash,
-        BasicAttack
+        BasicAttack,
+        JumpAttack
     }
 
     protected Animator _animator;
@@ -31,7 +32,8 @@ public abstract class EntityState
         {EnumState.JumpFall, "jumpFall" },
         {EnumState.WallSlide, "wallSlide" },
         {EnumState.Dash, "dash" },
-        {EnumState.BasicAttack, "basicAttack" }
+        {EnumState.BasicAttack, "basicAttack" },
+        {EnumState.JumpAttack, "jumpAttack" }
     };
 
     public EntityState(Player player, StateMachine stateMachine, EnumState stateName)

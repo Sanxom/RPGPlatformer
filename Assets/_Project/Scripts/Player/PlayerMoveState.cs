@@ -27,7 +27,7 @@ public class PlayerMoveState : PlayerGroundedState
     {
         base.Update();
 
-        if (_player.MoveX == 0)
+        if (_player.MoveX == 0 || _player.WallDetected)
             _stateMachine.ChangeState(_player.IdleState);
 
         _player.SetVelocity(_player.MoveX * _player.MoveSpeed, _rb.linearVelocityY);
